@@ -127,7 +127,7 @@ h2 { font-size: 3.6rem; }
   background: rgba(255,255,255,.08); border: .4rem solid rgba(255,255,255,.18); border-radius: 1.8rem;
 }
 .rl { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; padding: 1rem; }
-.rl-title { font: 900 6.4rem/1 var(--display); color: var(--gold); white-space: nowrap; text-shadow: 0 .5rem 0 #b0300a; }
+.rl-title { font: 900 5.8rem/1 var(--display); color: var(--gold); white-space: nowrap; text-shadow: 0 .5rem 0 #b0300a; }
 .rl-of { font: 800 2.2rem/1 var(--body); color: var(--muted); }
 .rl-nav { display: flex; gap: 1rem; }
 .rl-nav .btn { font-size: 2.3rem; min-height: 6rem; padding: .8rem 1.4rem; }
@@ -392,6 +392,56 @@ h2 { font-size: 3.6rem; }
 
 .bump { animation: bump .5s ease-out; display: inline-block; }
 
+/* ===== Student screen (opened with #audience) ===== */
+body.idle { cursor: none; }
+.fs-hint {
+  position: fixed; left: 50%; bottom: 2.4rem; transform: translateX(-50%); z-index: 45;
+  display: flex; align-items: center; gap: 2rem; padding: 1.4rem 2.4rem; border-radius: 2rem;
+  background: rgba(10,15,46,.94); border: .4rem solid var(--gold);
+  font: 800 2.4rem/1.2 var(--body); white-space: nowrap; transition: opacity .4s;
+}
+.fs-hint[hidden] { display: none; }
+body.idle .fs-hint { opacity: 0; pointer-events: none; }
+body[data-mode="audience"][data-screen="round"] #scorebar,
+body[data-mode="audience"][data-screen="ready"] #scorebar { display: none; }
+body[data-mode="audience"][data-screen="ready"] #main { overflow: hidden; }
+.aud-sb-label { font: 900 2.6rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: #fff; }
+
+.aud-ready { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4rem; text-align: center; }
+.aud-ready .logo { font-size: 9rem; }
+.aud-ready-sub { font: 900 6rem/1 var(--display); color: #fff; animation: pulse 1.6s ease-in-out infinite; }
+
+.aud-round { height: 100%; display: flex; flex-direction: column; gap: 1.6rem; }
+.aud-top { flex: none; height: 36rem; display: grid; grid-template-columns: 34rem minmax(0,1fr) 34rem; gap: 1.6rem; }
+.aud-rl { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem; }
+.aud-rl-word { font: 900 4.6rem/1 var(--display); letter-spacing: .12em; color: var(--gold); }
+.aud-rl-num { font: 900 16rem/1 var(--display); color: var(--gold); text-shadow: 0 .7rem 0 #b0300a; }
+.aud-subject .subj-label { font-size: 2.8rem; }
+.aud-subject .subj-text { font-size: 15rem; }
+.aud-subject .subj-text.len-m { font-size: 12rem; }
+.aud-subject .subj-text.len-l { font-size: 9rem; }
+.aud-subject .subj-text.len-xl { font-size: 7rem; }
+.aud-subject .subj-mystery { font-size: 12rem; }
+.aud-huddle .t-label { font-size: 2.6rem; }
+.aud-huddle .t-digits { font-size: 18rem; }
+.aud-huddle.long .t-digits { font-size: 11rem; }
+.aud-huddle.timeup .t-label { font-size: 3.6rem; }
+.aud-huddle.idle { opacity: .45; }
+.aud-teams { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 2rem; }
+.aud-team {
+  min-width: 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem;
+  padding: 2rem 3rem; border-radius: 2.4rem; text-align: center;
+}
+.aud-team.a { background: linear-gradient(160deg, #3f8bff, #1446b8); color: #fff; }
+.aud-team.b { background: linear-gradient(160deg, #ffa448, #ff7a00); color: var(--orange-ink); }
+.aud-team.lead { box-shadow: 0 0 0 .7rem var(--gold), 0 0 5rem rgba(255,210,63,.6); }
+.aud-name, .aud-runner { max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aud-name { font: 900 6.4rem/1.15 var(--display); }
+.aud-score { font: 900 22rem/1 var(--display); font-variant-numeric: tabular-nums; text-shadow: 0 .8rem 0 rgba(0,0,0,.25); }
+.aud-runner { font: 900 4.4rem/1.15 var(--body); }
+.aud-runner.none { visibility: hidden; }
+.aud-pts { font: 800 3.4rem/1.1 var(--body); padding: .6rem 2.4rem; border-radius: 99rem; background: rgba(0,0,0,.22); font-variant-numeric: tabular-nums; }
+
 @keyframes pop { 0% { transform: scale(.2) rotate(-8deg); opacity: 0; } 55% { transform: scale(1.15) rotate(2deg); opacity: 1; } 75% { transform: scale(.96); } 100% { transform: scale(1); } }
 @keyframes rays { 0% { transform: rotate(0) scale(.3); opacity: 1; } 100% { transform: rotate(80deg) scale(1.2); opacity: 0; } }
 @keyframes pulse { 50% { opacity: .45; transform: scale(.96); } }
@@ -411,6 +461,11 @@ h2 { font-size: 3.6rem; }
 <header id="scorebar"></header>
 <main id="main"></main>
 <div id="confetti" aria-hidden="true"></div>
+<div id="fsHint" class="fs-hint" hidden>
+  <span>📺 Student Screen — drag this window to the projector, then</span>
+  <button class="btn gold" id="fsBtn" type="button">⛶ Full screen</button>
+  <span>(or press F)</span>
+</div>
 <div id="help" class="overlay" hidden>
   <div class="help-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
     <h2 id="helpTitle">⌨️ Keyboard Shortcuts</h2>
@@ -423,6 +478,7 @@ h2 { font-size: 3.6rem; }
       <dt><kbd>C</kbd></dt><dd>Show both checklists</dd>
       <dt><kbd>S</kbd></dt><dd>Scoreboard on / off</dd>
       <dt><kbd>?</kbd></dt><dd>Show / hide this help</dd>
+      <dt>📺</dt><dd><b>Student Screen</b> opens a window for the projector: drag it there, then press <kbd>F</kbd> in it for full screen</dd>
     </dl>
     <div class="actions"><button class="btn gold big" data-action="help">Got it!</button></div>
   </div>
@@ -435,6 +491,9 @@ h2 { font-size: 3.6rem; }
 
   /* ---------- Constants & defaults ---------- */
   var KEY = 'packAttack.save.v1';
+  var LIVE_KEY = 'packAttack.live.v1';
+  // The same file opened as pack-attack.html#audience is the read-only Student Screen.
+  var AUDIENCE = /(^|[#?&])audience\b/i.test(location.hash + location.search);
   var NUM_ROUNDS = 4;
   var SCREENS = ['setup', 'round', 'scoreboard', 'final', 'debrief'];
   var DEFAULT_ROUNDS = [
@@ -542,15 +601,20 @@ h2 { font-size: 3.6rem; }
     }
   }
   function save() {
+    if (AUDIENCE) return; // the Student Screen only displays; it never writes
     try {
       window.localStorage.setItem(KEY, JSON.stringify(state));
       if (rt.storageFailed) { rt.storageFailed = false; renderScorebar(); }
     } catch (e) {
       if (!rt.storageFailed) { rt.storageFailed = true; renderScorebar(); }
     }
+    publish();
   }
   function clearSave() {
-    try { window.localStorage.removeItem(KEY); } catch (e) { /* storage unavailable */ }
+    try {
+      window.localStorage.removeItem(KEY);
+      window.localStorage.removeItem(LIVE_KEY);
+    } catch (e) { /* storage unavailable */ }
   }
 
   /* ---------- State + runtime-only values ---------- */
@@ -561,7 +625,10 @@ h2 { font-size: 3.6rem; }
     revealRound: -1, revealAt: 0,
     toggledId: null, toggledTeam: -1, toggledAt: 0,
     prevTotals: null, prevSubs: {},
-    storageFailed: false
+    storageFailed: false,
+    audienceWin: null, pubRev: 0,               // control side
+    appliedRev: 0, appliedOnce: false,           // student side
+    lastSig: '', lastLiveRaw: '', prevAud: null
   };
   var state = load();
 
@@ -704,7 +771,8 @@ h2 { font-size: 3.6rem; }
       rt.lastTimerSave = now;
       save();
     }
-    if (state.screen === 'round') updateTimers();
+    if (AUDIENCE) updateAudienceTimer();
+    else if (state.screen === 'round') updateTimers();
   }
 
   /* ---------- Sound (Web Audio, no files) ---------- */
@@ -771,6 +839,7 @@ h2 { font-size: 3.6rem; }
 
   /* ---------- Rendering ---------- */
   function render() {
+    if (AUDIENCE) { renderAudience(); return; }
     var sameScreen = document.body.getAttribute('data-screen') === state.screen;
     var scroll = sameScreen ? $main.scrollTop : 0;
     document.body.setAttribute('data-screen', state.screen);
@@ -797,10 +866,17 @@ h2 { font-size: 3.6rem; }
     function nav(screen, label) {
       return '<button class="nav-btn' + (s === screen ? ' on' : '') + '" data-action="go" data-screen="' + screen + '">' + label + '</button>';
     }
+    if (AUDIENCE) {
+      var label = s === 'final' ? '🏆 Final Results' : s === 'debrief' ? '💬 Team Talk' : 'Round ' + (state.current + 1) + ' of ' + NUM_ROUNDS;
+      $sb.innerHTML = team(0) + '<div class="sb-mid"><div class="logo">🎒 PACK<span>ATTACK</span></div>' +
+        '<div class="aud-sb-label">' + label + '</div></div>' + team(1);
+      return;
+    }
     $sb.innerHTML = team(0) +
       '<div class="sb-mid"><div class="logo">🎒 PACK<span>ATTACK</span></div><nav class="sb-nav">' +
       (state.started ? nav('round', '🎒 Round ' + (state.current + 1)) + nav('scoreboard', '📊 Scores') : '') +
       nav('setup', '⚙️ Setup') +
+      '<button class="nav-btn" data-action="student-screen" title="Open a window for the projector">📺 Student Screen</button>' +
       '<button class="nav-btn" data-action="help" title="Keyboard shortcuts (?)">⌨️ Keys</button>' +
       '<button class="nav-btn danger" data-action="reset">↺ Reset Game</button>' +
       '</nav>' + (rt.storageFailed ? '<div class="save-warn">⚠️ Saving is off in this browser</div>' : '') + '</div>' +
@@ -1164,7 +1240,8 @@ h2 { font-size: 3.6rem; }
     'sw-reset': swReset,
     'add-item': function (el) { addItem(+el.getAttribute('data-round')); },
     'remove-item': function (el) { removeItem(+el.getAttribute('data-round'), el.getAttribute('data-item')); },
-    'confetti': function () { launchConfetti(180); }
+    'confetti': function () { launchConfetti(180); },
+    'student-screen': openStudentScreen
   };
   function changeCount(el, delta) {
     var T = cur().teams[+el.getAttribute('data-team')];
@@ -1177,6 +1254,7 @@ h2 { font-size: 3.6rem; }
 
   /* ---------- Events ---------- */
   document.addEventListener('click', function (e) {
+    if (AUDIENCE) return;
     var el = e.target.closest('[data-action]');
     if (!el || el.disabled) return;
     var fn = actions[el.getAttribute('data-action')];
@@ -1187,6 +1265,7 @@ h2 { font-size: 3.6rem; }
   $help.addEventListener('click', function (e) { if (e.target === $help) toggleHelp(false); });
 
   document.addEventListener('input', function (e) {
+    if (AUDIENCE) return;
     var el = e.target;
     var kind = el.getAttribute && el.getAttribute('data-input');
     if (!kind) return;
@@ -1214,6 +1293,7 @@ h2 { font-size: 3.6rem; }
     }
   });
   document.addEventListener('change', function (e) {
+    if (AUDIENCE) return;
     var el = e.target;
     if (el.getAttribute && el.getAttribute('data-input') === 'huddle-seconds') {
       state.huddleSeconds = toInt(el.value, 5, 300, 30);
@@ -1225,6 +1305,7 @@ h2 { font-size: 3.6rem; }
   });
 
   document.addEventListener('keydown', function (e) {
+    if (AUDIENCE) return;
     var el = e.target;
     if (el && el.matches && el.matches('input, textarea, select, [contenteditable]')) {
       if (e.key === 'Enter' && el.hasAttribute('data-add-input')) {
@@ -1261,14 +1342,214 @@ h2 { font-size: 3.6rem; }
   // Keep running timers accurate across a refresh. Only save when a timer is running so an
   // idle second tab never overwrites newer saved scores when it closes.
   window.addEventListener('pagehide', function () {
-    if (!rt.huddleRunning && !rt.swRunning) return;
+    if (AUDIENCE || (!rt.huddleRunning && !rt.swRunning)) return;
     state.timers.huddleLeftMs = huddleLeft();
     state.timers.stopwatchMs = swElapsed();
     save();
   });
 
+  /* ---------- Student Screen: control side (send) ---------- */
+  var channel = null;
+  try { if (window.BroadcastChannel) channel = new BroadcastChannel('pack-attack'); } catch (e) { channel = null; }
+
+  // Send the whole game to any open Student Screen. Three routes, because file:// pages differ by
+  // browser: a direct postMessage to the window we opened, a BroadcastChannel, and localStorage.
+  function publish() {
+    if (AUDIENCE) return;
+    rt.pubRev = Math.max(Date.now(), rt.pubRev + 1);
+    var json;
+    try {
+      json = JSON.stringify({
+        type: 'pack-attack', rev: rt.pubRev, state: state,
+        live: { huddleRunning: rt.huddleRunning, huddleEnd: rt.huddleEnd, huddleLeftMs: huddleLeft() }
+      });
+    } catch (e) { return; }
+    try { window.localStorage.setItem(LIVE_KEY, json); } catch (e) { /* storage unavailable */ }
+    try { if (channel) channel.postMessage(json); } catch (e) { /* ignore */ }
+    try { if (rt.audienceWin && !rt.audienceWin.closed) rt.audienceWin.postMessage(json, '*'); } catch (e) { /* ignore */ }
+  }
+
+  function openStudentScreen() {
+    if (rt.audienceWin && !rt.audienceWin.closed) {
+      try { rt.audienceWin.focus(); } catch (e) { /* ignore */ }
+      publish();
+      return;
+    }
+    var w = null;
+    try { w = window.open(location.href.split('#')[0] + '#audience', 'packAttackStudents', 'popup,width=1280,height=720'); } catch (e) { w = null; }
+    if (!w) {
+      window.alert('The browser blocked the Student Screen window.\n\nAllow pop-ups for this page and click 📺 Student Screen again, ' +
+        'or open this same file in a new window and add #audience to the end of the address.');
+      return;
+    }
+    rt.audienceWin = w;
+  }
+
+  // A Student Screen that (re)loads says hello; answer with the current game.
+  window.addEventListener('message', function (e) {
+    if (AUDIENCE || !e.data || e.data.type !== 'pack-attack-hello' || !e.source) return;
+    rt.audienceWin = e.source;
+    publish();
+  });
+
+  /* ---------- Student Screen: student side (receive + draw) ---------- */
+  function audienceView() {
+    if (!state.started) return 'ready';
+    if (state.screen === 'scoreboard' || state.screen === 'final' || state.screen === 'debrief') return state.screen;
+    return 'round'; // teacher's round, setup or help: students keep seeing the round
+  }
+
+  function applyIncoming(data) {
+    var msg;
+    try { msg = typeof data === 'string' ? JSON.parse(data) : data; } catch (e) { return; }
+    if (!msg || msg.type !== 'pack-attack' || typeof msg.rev !== 'number' || msg.rev <= rt.appliedRev) return;
+    rt.appliedRev = msg.rev;
+    var prev = state;
+    var next = normalize(msg.state);
+    var L = msg.live && typeof msg.live === 'object' ? msg.live : {};
+    rt.huddleRunning = L.huddleRunning === true && isFinite(L.huddleEnd);
+    rt.huddleEnd = rt.huddleRunning ? Number(L.huddleEnd) : 0;
+    next.timers.huddleLeftMs = toInt(L.huddleLeftMs, 0, next.huddleSeconds * 1000, next.timers.huddleLeftMs);
+
+    var sig = JSON.stringify([next.started, next.screen, next.current, next.teams, next.huddleSeconds, next.rounds]);
+    if (sig === rt.lastSig) { state = next; updateAudienceTimer(); return; }
+    rt.lastSig = sig;
+
+    var nr = next.rounds[next.current];
+    var wasRevealed = prev.current === next.current && prev.rounds[prev.current].revealed;
+    if (rt.appliedOnce && nr.revealed && !wasRevealed) { rt.revealRound = next.current; rt.revealAt = Date.now(); }
+    var toFinal = rt.appliedOnce && next.started && next.screen === 'final' && prev.screen !== 'final';
+    rt.appliedOnce = true;
+    state = next;
+    var view = audienceView();
+    if (view === 'round' || view === 'ready') clearConfetti();
+    render();
+    if (toFinal) launchConfetti(180);
+  }
+
+  function renderAudience() {
+    var view = audienceView();
+    document.body.setAttribute('data-screen', view);
+    renderScorebar();
+    var html = { ready: renderReady, round: renderAudienceRound, scoreboard: renderScoreboard, final: renderFinal, debrief: renderDebrief }[view]();
+    $main.innerHTML = html;
+    var btns = $main.querySelectorAll('.actions');
+    for (var i = 0; i < btns.length; i++) btns[i].parentNode.removeChild(btns[i]);
+    $main.scrollTop = 0;
+    updateAudienceTimer();
+  }
+
+  function renderReady() {
+    function box(t) {
+      return '<div class="fs ' + (t ? 'b' : 'a') + '"><div class="fs-name">' + esc(teamName(t)) + '</div><div class="fs-score">' + fmt(teamTotal(t)) + '</div></div>';
+    }
+    return '<section class="aud-ready">' +
+      '<div class="logo">🎒 PACK<span>ATTACK</span></div>' +
+      '<div class="aud-ready-sub">Get ready!</div>' +
+      '<div class="final-scores">' + box(0) + '<div class="vs">VS</div>' + box(1) + '</div>' +
+      '</section>';
+  }
+
+  function renderAudienceRound() {
+    var r = state.current, R = cur();
+    var now = Date.now();
+    var animating = R.revealed && rt.revealRound === r && now - rt.revealAt < 1600;
+    var delay = animating ? (rt.revealAt - now) + 'ms' : '0ms';
+    var subject;
+    if (R.revealed) {
+      var name = subjectName(r);
+      subject = '<div class="subj-label">Today’s Subject</div>' +
+        '<div class="subj-text ' + lenClass(name, 7, 10, 14) + (animating ? ' reveal-anim' : '') + '" style="animation-delay:' + delay + '" id="audSubject">' + esc(name) + '</div>';
+    } else {
+      subject = '<div class="subj-label">Today’s Subject</div><div class="subj-mystery" id="audSubject">? ? ?</div>';
+    }
+    var tot = [teamTotal(0), teamTotal(1)];
+    var prevTot = rt.prevAud;
+    rt.prevAud = tot;
+    var lead = tot[0] === tot[1] ? -1 : tot[0] > tot[1] ? 0 : 1;
+    function team(t) {
+      var runner = R.teams[t].runner.trim();
+      var bump = prevTot && prevTot[t] !== tot[t] ? ' bump' : '';
+      return '<div class="aud-team ' + (t ? 'b' : 'a') + (lead === t ? ' lead' : '') + '" data-team="' + t + '">' +
+        '<div class="aud-name">' + (lead === t ? '👑 ' : '') + esc(teamName(t)) + '</div>' +
+        '<div class="aud-score' + bump + '" id="audTotal' + t + '">' + fmt(tot[t]) + '</div>' +
+        '<div class="aud-runner' + (runner ? '' : ' none') + '">🏃 Runner: ' + (runner ? esc(runner) : '—') + '</div>' +
+        '<div class="aud-pts">This round: <b>' + fmtPts(roundScore(r, t).total) + '</b></div>' +
+        '</div>';
+    }
+    return '<section class="aud-round">' +
+      '<div class="aud-top">' +
+        '<div class="card aud-rl"><div class="aud-rl-word">ROUND</div><div class="aud-rl-num">' + (r + 1) + '</div><div class="rl-of">of ' + NUM_ROUNDS + '</div></div>' +
+        '<div class="card subject-card aud-subject' + (animating ? ' revealing' : '') + '" style="--d:' + delay + '">' + subject + '</div>' +
+        '<div class="card timer huddle aud-huddle idle' + (state.huddleSeconds >= 60 ? ' long' : '') + '" id="audHuddle">' +
+          '<div class="t-label" id="audHuddleLabel">Huddle</div><div class="t-digits" id="audHuddleDigits"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="aud-teams">' + team(0) + team(1) + '</div>' +
+      '</section>';
+  }
+
+  function updateAudienceTimer() {
+    var card = document.getElementById('audHuddle');
+    if (!card) return;
+    var left = huddleLeft();
+    setText(document.getElementById('audHuddleDigits'), fmtHuddle(left));
+    setText(document.getElementById('audHuddleLabel'), left <= 0 ? "TIME'S UP!" : 'Huddle');
+    card.classList.toggle('idle', !rt.huddleRunning && left >= huddleFull());
+    card.classList.toggle('running', rt.huddleRunning);
+    card.classList.toggle('warn', left > 0 && left <= 5000);
+    card.classList.toggle('timeup', left <= 0);
+  }
+
+  function startAudience() {
+    document.title = 'Pack Attack — Student Screen';
+    document.body.setAttribute('data-mode', 'audience');
+    if ($help.parentNode) $help.parentNode.removeChild($help); // teacher-only
+
+    // Full-screen button + hide the mouse and hint when idle.
+    var hint = document.getElementById('fsHint');
+    hint.hidden = false;
+    var idleTimer = null;
+    function wake() {
+      document.body.classList.remove('idle');
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () { document.body.classList.add('idle'); }, 3000);
+    }
+    ['mousemove', 'mousedown', 'keydown', 'touchstart'].forEach(function (ev) { document.addEventListener(ev, wake, { passive: true }); });
+    wake();
+    function toggleFullscreen() {
+      try {
+        var p = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+        if (p && p.catch) p.catch(function () { /* not allowed here */ });
+      } catch (e) { /* not supported */ }
+    }
+    document.getElementById('fsBtn').addEventListener('click', toggleFullscreen);
+    document.addEventListener('dblclick', toggleFullscreen);
+    document.addEventListener('keydown', function (e) {
+      if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); toggleFullscreen(); }
+    });
+    document.addEventListener('fullscreenchange', function () { hint.hidden = !!document.fullscreenElement; });
+
+    // Receive updates on every route; applyIncoming ignores duplicates and old ones.
+    window.addEventListener('message', function (e) { if (e.source === window.opener) applyIncoming(e.data); });
+    if (channel) channel.onmessage = function (e) { applyIncoming(e.data); };
+    function readLive() {
+      try {
+        var raw = window.localStorage.getItem(LIVE_KEY);
+        if (raw && raw !== rt.lastLiveRaw) { rt.lastLiveRaw = raw; applyIncoming(raw); }
+      } catch (e) { /* storage unavailable: postMessage still works */ }
+    }
+    window.addEventListener('storage', function (e) { if (e.key === LIVE_KEY) readLive(); });
+    setInterval(readLive, 1000);
+
+    render();     // last saved game, if any
+    readLive();   // newest published game, if any
+    try { if (window.opener) window.opener.postMessage({ type: 'pack-attack-hello' }, '*'); } catch (e) { /* no opener */ }
+  }
+
   /* ---------- Go ---------- */
-  render();
+  if (AUDIENCE) startAudience();
+  else { render(); publish(); }
   setInterval(tick, 100);
 })();
 </script>
